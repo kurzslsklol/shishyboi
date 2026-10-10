@@ -1,0 +1,9 @@
+{
+  "name": "shishyboii",
+  "main": "worker.js",
+  "account_id": "081ab374cc5297db4b401a18cf7b2cf9",
+  "compatibility_date": "2024-01-01",
+  "assets": {
+    "directory": "public"
+  }
+}
